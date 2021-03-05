@@ -1,4 +1,38 @@
-bool isvalidcc(const string&);
+#include <vector>
+#include <string>
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+bool isvalidcc(const string& str1) {
+	//add a leading 0 or else the foor loop won't include the digit at the beginning
+	string str = "0" + str1;
+	char c;
+	int num;
+	int sum = 0;
+	for (int i = str.length() - 1; i > 0; i -= 2) {
+		//ith - 1 digit will be doubled
+		//c -48 will give us value of the char number because 48 = ASCII for 0
+		c = str.at(i - 1);
+		num = c - 48;
+		num *= 2;
+		//if num>9 add the digits seperately
+		if (num > 9) {
+			//add digit in ones place
+			sum += num % 10;
+			//add digit in tens place
+			sum += num / 10 % 10;
+		}
+		//num < 10 then add into sum
+		else {
+			sum += num;
+		}
+		//add ith digit into sum
+		sum += str.at(i) - 48;
+	}
+	//return if sum is divisible by 10
+	return sum % 10 == 0;;
+}
 
 int main()
 {
@@ -20,9 +54,9 @@ int main()
 	vector<string>::iterator itr;
 
 	for (i = 1, itr = cardnumbers.begin(); itr != cardnumbers.end(); ++itr, i++) {
-		cout << setw(2)  << i << " " 
-			 << setw(17) << *itr 
-			 << ((isvalidcc(*itr)) ? " is valid" : " is not valid") << endl;
+		cout << setw(2) << i << " "
+			<< setw(17) << *itr
+			<< ((isvalidcc(*itr)) ? " is valid" : " is not valid") << endl;
 	}
 
 	return 0;
